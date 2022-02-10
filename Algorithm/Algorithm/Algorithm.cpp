@@ -3,8 +3,6 @@
 #include <cmath>
 using namespace std;
 
-int arr[10001] = { 0, };
-
 bool isPrime(int x)
 {
 	int end = (int)sqrt(x);
@@ -21,70 +19,33 @@ bool isPrime(int x)
 			return false;
 		}
 	}
-
 	return true;
 }
 
 int main()
 {
-	int x, y;
-	int sum = 0;
-	int min = 10001;
 
-	cin >> x >> y;
-
-	if (x == y)
+	while (true)
 	{
-		if (isPrime(x) == 1)
-		{
-			cout << x << "\n";
-			cout << x;
-			return 0;
-		}
-		else
-		{
-			cout << -1;
-			return 0;
-		}
-	}
+		int n;
+		int count = 0;
+		cin >> n;
+		int fivot = n * 2;
 
-	while (x < y)
-	{
-		if (isPrime(x) == true)
+		if (n == 0)
 		{
-			arr[x] = 1;
-		}
-		x++;
-		if (x == y)
-		{
-			if (isPrime(x) == true)
-			{
-				arr[x] = 1;
-			}
 			break;
 		}
-	}
 
-	for (int i = 0; i < 10001; i++)
-	{
-		if (arr[i] == 1)
+		while (n < fivot)
 		{
-			sum += i;
-			if (i < min)
+			n += 1;
+			if (isPrime(n) == 1)
 			{
-				min = i;
+				count++;
 			}
 		}
-	}
 
-	if (sum == 0)
-	{
-		cout << -1;
+		cout << count << "\n";
 	}
-	else
-	{
-		cout << sum << "\n";
-		cout << min;
-	}
-
 }
