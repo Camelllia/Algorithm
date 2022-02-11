@@ -3,49 +3,43 @@
 #include <cmath>
 using namespace std;
 
-bool isPrime(int x)
-{
-	int end = (int)sqrt(x);
+int num = 1000001;
+int arr[1000001];
 
-	if (x < 2)
+void Sieve()
+{
+	int m, n;
+
+	cin >> m >> n;
+
+	for (int i = 2; i <= num; i++)
 	{
-		return false;
+		arr[i] = i;
 	}
 
-	for (int i = 2; i <= end; i++)
+	for (int i = 2; i <= num; i++)
 	{
-		if (x % i == 0)
+		if (arr[i] == 0)
 		{
-			return false;
+			continue;
+		}
+
+		for (int j = i + i; j <= num; j += i)
+		{
+			arr[j] = 0;
 		}
 	}
-	return true;
+
+	for (int i = m; i <= n; i++)
+	{
+		if (arr[i] != 0)
+		{
+			cout << arr[i] << "\n";
+		}
+	}
 }
 
 int main()
 {
-
-	while (true)
-	{
-		int n;
-		int count = 0;
-		cin >> n;
-		int fivot = n * 2;
-
-		if (n == 0)
-		{
-			break;
-		}
-
-		while (n < fivot)
-		{
-			n += 1;
-			if (isPrime(n) == 1)
-			{
-				count++;
-			}
-		}
-
-		cout << count << "\n";
-	}
+	Sieve();
 }
