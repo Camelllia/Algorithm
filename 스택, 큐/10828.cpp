@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <stack>
@@ -38,7 +38,7 @@ int main()
 			{
 				cout << s.top() << "\n";
 				s.pop();
-			}		
+			}
 		}
 		else if (input == "top")
 		{
