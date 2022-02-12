@@ -1,37 +1,43 @@
 ﻿#include <iostream>
 #include <algorithm>
-#include <cmath>
-#include <stack>
+#include <string>
+#include <queue>
 using namespace std;
 
 int main()
 {
-	int testCase;
-	stack<int> s;
-	int sum = 0;
 
+	cin.tie(NULL);
+	ios::sync_with_stdio(false);
+
+	queue<int> q;
+	int testCase;
+	
 	cin >> testCase;
 
-	for (int i = 0; i < testCase; i++)
+	if (testCase == 1)
 	{
-		int a;
-		cin >> a;
+		cout << 1;
+		return 0;
+	}
 
-		if (a == 0)
+	for (int i = 1; i <= testCase; i++)
+	{
+		q.push(i);
+	}
+
+	while (true)
+	{
+		q.pop();
+		int a = q.front();
+		q.pop();
+		q.push(a);
+
+		if (size(q) == 1)
 		{
-			s.pop();
+			break;
 		}
-		else
-		{
-			s.push(a);
-		}	
 	}
 
-	while (!s.empty())
-	{
-		sum += s.top();
-		s.pop();
-	}
-
-	cout << sum;
+	cout << q.front();
 }
