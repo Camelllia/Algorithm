@@ -1,43 +1,69 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <string>
-#include <queue>
+#include <cmath>
 using namespace std;
 
 int main()
 {
-
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	queue<int> q;
 	int testCase;
-	
 	cin >> testCase;
 
-	if (testCase == 1)
-	{
-		cout << 1;
-		return 0;
-	}
+	int first;
+	cin >> first;
 
-	for (int i = 1; i <= testCase; i++)
+	for (int i = 0; i < testCase - 1; i++)
 	{
-		q.push(i);
-	}
+		int n;
+		cin >> n;
 
-	while (true)
-	{
-		q.pop();
-		int a = q.front();
-		q.pop();
-		q.push(a);
-
-		if (size(q) == 1)
+		if (first % n == 0)
 		{
-			break;
+			cout << first / n << "/" << 1 << "\n";
+		}
+		else
+		{
+			if (first > n)
+			{
+				int a = first;
+				int b = n;
+				int temp;
+
+				while (true)
+				{
+					temp = a % b;
+					a = b;
+					b = temp;
+
+					if (b == 0)
+					{
+						cout << first / a << "/" << n / a << "\n";
+						break;
+					}
+				}
+			}
+			else
+			{
+				int a = n;
+				int b = first;
+				int temp;
+
+				while (true)
+				{
+					temp = a % b;
+					a = b;
+					b = temp;
+
+					if (b == 0)
+					{
+						cout << first / a << "/" << n / a << "\n";
+						break;
+					}
+				}
+			}
 		}
 	}
-
-	cout << q.front();
 }
