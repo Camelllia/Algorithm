@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <string>
 #include <stack>
@@ -9,7 +9,7 @@ int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
-	
+
 	int n;
 	cin >> n;
 
