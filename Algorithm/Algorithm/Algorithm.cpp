@@ -3,36 +3,46 @@
 #include <string>
 #include <stack>
 #include <cmath>
+#include <vector>
 using namespace std;
+
+bool compare(const string &a, const string &b)
+{
+	if (a.length() != b.length())
+	{
+		return a.length() < b.length();
+	}
+	else
+	{
+		return a < b;
+	}
+}
 
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 	
-	int n;
-	cin >> n;
+	int testCase;
+	cin >> testCase;
 
-	int sum;
-	int div;
+	vector<string> v(testCase);
 
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < testCase; i++)
 	{
-		sum = i;
-		div = i;
-
-		while (div)
-		{
-			sum += div % 10;
-			div /= 10;
-		}
-
-		if (n == sum)
-		{
-			cout << i << "\n";
-			return 0;
-		}
+		cin >> v[i];
 	}
 
-	cout << 0 << "\n";
+	sort(v.begin(), v.end(), compare);
+
+	cout << v[0] << "\n";
+
+	for (int i = 1; i < testCase; i++)
+	{
+		if (v[i - 1] == v[i])
+		{
+			continue;
+		}
+		cout << v[i] << "\n";
+	}
 }
