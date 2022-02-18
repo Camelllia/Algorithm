@@ -1,19 +1,8 @@
 ﻿#include <iostream>
 #include <algorithm>
+#include <string>
 #include <cmath>
 using namespace std;
-
-void hanoi(int n, int start, int end, int middle)
-{
-	if (n == 1)
-	{
-		cout << start << " " << end << "\n";
-		return;
-	}
-	hanoi(n - 1, start, middle, end);
-	cout << start << " " << end << "\n";
-	hanoi(n - 1, middle, end, start);
-}
 
 int main()
 {
@@ -22,8 +11,27 @@ int main()
 
 	int n;
 	cin >> n;
+	int result = 0;
+	int count = 0;
 
-	cout << (int)pow(2, n) - 1 << "\n";
-	hanoi(n, 1, 3, 2);
-	
+	while (count != n)
+	{
+		result++;
+		int temp = result;
+
+		while (temp != 0)
+		{
+			if (temp % 1000 == 666)
+			{
+				count++;
+				break;
+			}
+			else
+			{
+				temp /= 10;
+			}
+		}
+	}
+
+	cout << result;
 }
