@@ -1,37 +1,52 @@
 ﻿#include <iostream>
-#include <algorithm>
-#include <string>
-#include <cmath>
+#include <queue>
+
 using namespace std;
 
 int main()
 {
-	cin.tie(NULL);
-	ios::sync_with_stdio(false);
+	int n, k;
+	cin >> n >> k;
 
-	int n;
-	cin >> n;
-	int result = 0;
 	int count = 0;
 
-	while (count != n)
-	{
-		result++;
-		int temp = result;
+	queue<int> q;
 
-		while (temp != 0)
+	for (int i = 0; i < n; i++)
+	{
+		q.push(i + 1);
+	}
+
+	cout << "<";
+
+	while (true)
+	{
+		if (count < k - 1)
 		{
-			if (temp % 1000 == 666)
+			q.push(q.front());
+			q.pop();
+			count++;
+		}
+		else
+		{
+			if (q.size() == 1)
 			{
-				count++;
-				break;
+				cout << q.front() << ">";
+				q.pop();
 			}
 			else
 			{
-				temp /= 10;
+				cout << q.front() << "," << " ";
+				q.pop();
 			}
+			count = 0;
 		}
+
+		if (q.empty() == true)
+		{
+			break;
+		}
+		
 	}
 
-	cout << result;
 }
