@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <cmath>
 using namespace std;
@@ -25,5 +25,5 @@ int main()
 
 	cout << (int)pow(2, n) - 1 << "\n";
 	hanoi(n, 1, 3, 2);
-	
+
 }
