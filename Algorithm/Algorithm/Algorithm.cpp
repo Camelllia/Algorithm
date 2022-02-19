@@ -1,52 +1,45 @@
 ﻿#include <iostream>
-#include <queue>
-
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <cmath>
 using namespace std;
+
+bool compare(pair<int, string> a, pair<int, string> b)
+{
+	if (a.first < b.first)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 int main()
 {
-	int n, k;
-	cin >> n >> k;
+	cin.tie(NULL);
+	ios::sync_with_stdio(false);
 
-	int count = 0;
+	int testCase;
+	cin >> testCase;
 
-	queue<int> q;
+	vector<pair<int, string>> v;
 
-	for (int i = 0; i < n; i++)
+	int x;
+	string y;
+
+	for (int i = 0; i < testCase; i++)
 	{
-		q.push(i + 1);
+		cin >> x >> y;
+		v.push_back(pair<int, string>(x, y));
 	}
 
-	cout << "<";
+	stable_sort(v.begin(), v.end(), compare);
 
-	while (true)
+	for (int i = 0; i < testCase; i++)
 	{
-		if (count < k - 1)
-		{
-			q.push(q.front());
-			q.pop();
-			count++;
-		}
-		else
-		{
-			if (q.size() == 1)
-			{
-				cout << q.front() << ">";
-				q.pop();
-			}
-			else
-			{
-				cout << q.front() << "," << " ";
-				q.pop();
-			}
-			count = 0;
-		}
-
-		if (q.empty() == true)
-		{
-			break;
-		}
-		
+		cout << v[i].first << " " << v[i].second << "\n";
 	}
-
 }
