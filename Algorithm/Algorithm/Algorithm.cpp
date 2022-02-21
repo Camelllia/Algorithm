@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
-#include <stack>
+#include <queue>
 
 using namespace std;
 
@@ -10,43 +10,29 @@ int main()
 	int n;
 	cin >> n;
 
+	int arr[51][3];
+
 	for (int i = 0; i < n; i++)
 	{
-		stack<char> st;
-		string s;
-		bool flag = false;
+		cin >> arr[i][0];
+		cin >> arr[i][1];
+	}
 
-		cin >> s;
-		int len = (int)s.length();
-
-		for (int j = 0; j < len; j++)
+	for (int i = 0; i < n; i++)
+	{
+		int rank = 1;
+		for (int j = 0; j < n; j++)
 		{
-			char c = s[j];
-			if (c == '(')
+			if (i == j)
 			{
-				st.push(c);
+				continue;
 			}
-			else
+			if (arr[i][0] < arr[j][0] && arr[i][1] < arr[j][1])
 			{
-				if (st.empty() == false)
-				{
-					st.pop();
-				}
-				else
-				{
-					flag = true;
-					break;
-				}
+				rank++;
 			}
 		}
 
-		if (st.empty() == true && flag == false)
-		{
-			cout << "YES" << "\n";
-		}
-		else
-		{
-			cout << "NO" << "\n";
-		}
+		cout << rank << " ";
 	}
 }
