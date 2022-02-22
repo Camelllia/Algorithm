@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <vector>
+#include <queue>
 using namespace std;
 
 int main()
@@ -8,34 +9,50 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n;
-	cin >> n;
+	int tc;
+	cin >> tc;
 
-	long long money = 0;
-
-	vector<long long> dis(n - 1);
-	vector<long long> oil(n);
-
-	for (int i = 0; i < n - 1; i++)
+	for (int i = 0; i < tc; i++)
 	{
-		cin >> dis[i];
-	}
-	for (int i = 0; i < n; i++)
-	{
-		cin >> oil[i];
-	}
+		int n, m;
+		cin >> n >> m;
 
-	money += dis[0] * oil[0];
-	long long min = oil[0];
+		queue<pair<int, int>> q;
+		priority_queue<int> pq;
 
-	for (int i = 1; i < n - 1; i++)
-	{
-		if (oil[i] < min)
+		int count = 0;
+
+		for (int i = 0; i < n; i++)
 		{
-			min = oil[i];
-		}
-		money += min * dis[i];
-	}
+			int a;
+			cin >> a;
 
-	cout << money;
+			q.push(make_pair(i, a));
+			pq.push(a);
+		}
+
+		while (true)
+		{
+			int index = q.front().first;
+			int imp = q.front().second;
+
+			if (pq.top() > imp)
+			{
+				q.push(q.front());
+				q.pop();
+			}
+			else
+			{
+				q.pop();
+				pq.pop();
+				count++;
+
+				if (index == m)
+				{
+					cout << count << "\n";
+					break;
+				}
+			}
+		}
+	}
 }
