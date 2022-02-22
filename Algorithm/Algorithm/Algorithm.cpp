@@ -1,38 +1,28 @@
 ﻿#include <iostream>
+#include <algorithm>
 #include <string>
-#include <vector>
-#include <queue>
-
+#include <cmath>
 using namespace std;
+
+int Factorial(int x)
+{
+	if (x == 0 || x == 1)
+	{
+		return 1;
+	}
+
+	return x * Factorial(x - 1);
+}
 
 int main()
 {
+	cin.tie(NULL);
+	ios::sync_with_stdio(false);
+
 	int n;
 	cin >> n;
 
-	int arr[51][3];
+	int result = Factorial(n) / (Factorial(4) * Factorial(n - 4));
+	cout << result;
 
-	for (int i = 0; i < n; i++)
-	{
-		cin >> arr[i][0];
-		cin >> arr[i][1];
-	}
-
-	for (int i = 0; i < n; i++)
-	{
-		int rank = 1;
-		for (int j = 0; j < n; j++)
-		{
-			if (i == j)
-			{
-				continue;
-			}
-			if (arr[i][0] < arr[j][0] && arr[i][1] < arr[j][1])
-			{
-				rank++;
-			}
-		}
-
-		cout << rank << " ";
-	}
 }
