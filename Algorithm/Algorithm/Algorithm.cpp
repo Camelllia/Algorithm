@@ -1,7 +1,5 @@
 ﻿#include <iostream>
 #include <algorithm>
-#include <string>
-#include <cmath>
 #include <vector>
 using namespace std;
 
@@ -10,43 +8,34 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n, k;
-	cin >> n >> k;
+	int n;
+	cin >> n;
 
-	int count = 0;
-	int min = k;
-	int fivot = 0;
+	long long money = 0;
 
-	vector<int> v(n);
+	vector<long long> dis(n - 1);
+	vector<long long> oil(n);
 
+	for (int i = 0; i < n - 1; i++)
+	{
+		cin >> dis[i];
+	}
 	for (int i = 0; i < n; i++)
 	{
-		cin >> v[i];
-		int n = k - v[i];
-		if (n >= 0 && n <= min)
-		{
-			fivot = i;
-		}
+		cin >> oil[i];
 	}
 
-	while (true)
+	money += dis[0] * oil[0];
+	long long min = oil[0];
+
+	for (int i = 1; i < n - 1; i++)
 	{
-		int n = k - v[fivot];
-		if (n >= 0)
+		if (oil[i] < min)
 		{
-			k -= v[fivot];
-			count++;
+			min = oil[i];
 		}
-		else
-		{
-			fivot -= 1;
-		}
-
-		if (k == 0)
-		{
-			break;
-		}
+		money += min * dis[i];
 	}
 
-	cout << count;
+	cout << money;
 }
