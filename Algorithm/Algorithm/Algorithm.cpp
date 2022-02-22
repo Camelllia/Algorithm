@@ -2,27 +2,51 @@
 #include <algorithm>
 #include <string>
 #include <cmath>
+#include <vector>
 using namespace std;
-
-int Factorial(int x)
-{
-	if (x == 0 || x == 1)
-	{
-		return 1;
-	}
-
-	return x * Factorial(x - 1);
-}
 
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n;
-	cin >> n;
+	int n, k;
+	cin >> n >> k;
 
-	int result = Factorial(n) / (Factorial(4) * Factorial(n - 4));
-	cout << result;
+	int count = 0;
+	int min = k;
+	int fivot = 0;
 
+	vector<int> v(n);
+
+	for (int i = 0; i < n; i++)
+	{
+		cin >> v[i];
+		int n = k - v[i];
+		if (n >= 0 && n <= min)
+		{
+			fivot = i;
+		}
+	}
+
+	while (true)
+	{
+		int n = k - v[fivot];
+		if (n >= 0)
+		{
+			k -= v[fivot];
+			count++;
+		}
+		else
+		{
+			fivot -= 1;
+		}
+
+		if (k == 0)
+		{
+			break;
+		}
+	}
+
+	cout << count;
 }
