@@ -39,7 +39,7 @@ int main()
 		}
 		else
 		{
-			fivot -= 1;
+			pivot -= 1;
 		}
 
 		if (k == 0)
