@@ -15,7 +15,7 @@ int main()
 
 	int count = 0;
 	int min = k;
-	int fivot = 0;
+	int pivot = 0;
 
 	vector<int> v(n);
 
@@ -25,21 +25,21 @@ int main()
 		int n = k - v[i];
 		if (n >= 0 && n <= min)
 		{
-			fivot = i;
+			pivot = i;
 		}
 	}
 
 	while (true)
 	{
-		int n = k - v[fivot];
+		int n = k - v[pivot];
 		if (n >= 0)
 		{
-			k -= v[fivot];
+			k -= v[pivot];
 			count++;
 		}
 		else
 		{
-			fivot -= 1;
+			pivot -= 1;
 		}
 
 		if (k == 0)
