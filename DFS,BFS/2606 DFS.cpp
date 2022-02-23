@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <queue>
 #define max 101
@@ -9,7 +9,6 @@ int n, m;
 int map[max][max];
 bool visited[max];
 int result;
-queue<int> q;
 
 void reset()
 {
@@ -19,29 +18,19 @@ void reset()
 	}
 }
 
-void BFS(int v)
+void DFS(int v)
 {
-	q.push(v);
 	visited[v] = true;
-	//result++;
 
-	while (!q.empty())
+	for (int i = 1; i <= n; i++)
 	{
-		v = q.front();
-		q.pop();
-
-		for (int i = 1; i <= n; i++)
+		if (visited[i] == 0 && map[v][i] == 1)
 		{
-			if (visited[i] == 0 && map[v][i] == 1)
-			{
-				visited[i] = true;
-				q.push(i);
-				result++;
-			}
+			DFS(i);
+			result++;
 		}
 	}
 }
-
 
 int main()
 {
@@ -51,13 +40,12 @@ int main()
 	{
 		int a, b;
 		cin >> a >> b;
-		
+
 		map[a][b] = 1;
 		map[b][a] = 1;
 	}
 
 	reset();
-	BFS(1);
-
+	DFS(1);
 	cout << result;
 }

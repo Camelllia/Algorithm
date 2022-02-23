@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <queue>
 #define max 101
@@ -51,7 +51,7 @@ int main()
 	{
 		int a, b;
 		cin >> a >> b;
-		
+
 		map[a][b] = 1;
 		map[b][a] = 1;
 	}
