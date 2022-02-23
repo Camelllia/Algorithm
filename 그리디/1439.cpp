@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <queue>
@@ -43,7 +43,7 @@ int ToOne(string s)
 	int OneCnt = 0;
 	bool flag = false;
 	char tmp = s[s.length() - 1];
-	
+
 	for (int i = 0; i < s.length(); i++)
 	{
 		if (s[i] == '0')
