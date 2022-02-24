@@ -7,75 +7,34 @@
 
 using namespace std;
 
-int ToZero(string s)
-{
-	int ZeroCnt = 0;
-	bool flag = false;
-	char tmp = s[s.length() - 1];
-
-	for (int i = 0; i < s.length(); i++)
-	{
-		if (s[i] == '1')
-		{
-			s[i] = '0';
-			if (flag == true)
-			{
-				ZeroCnt++;
-				flag = false;
-			}
-		}
-		else
-		{
-			flag = true;
-		}
-	}
-
-	if (flag == true)
-	{
-		ZeroCnt++;
-	}
-
-	return ZeroCnt;
-}
-
-int ToOne(string s)
-{
-	int OneCnt = 0;
-	bool flag = false;
-	char tmp = s[s.length() - 1];
-	
-	for (int i = 0; i < s.length(); i++)
-	{
-		if (s[i] == '0')
-		{
-			s[i] = '1';
-			if (flag == true)
-			{
-				OneCnt++;
-				flag = false;
-			}
-		}
-		else
-		{
-			flag = true;
-		}
-	}
-
-	if (flag == true)
-	{
-		OneCnt++;
-	}
-
-	return OneCnt;
-}
-
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	string s;
-	cin >> s;
+	int n;
+	int count = 0;
+	int time = 0;
+	cin >> n;
+	vector<pair<int, int>> v(n);
 
-	cout << min(ToZero(s), ToOne(s));
+	for (int i = 0; i < n; i++)
+	{
+		cin >> v[i].second >> v[i].first;
+	}
+
+	sort(v.begin(), v.end());
+
+	
+	for (int i = 0; i < n; i++)
+	{
+		if (time <= v[i].second)
+		{
+			time = v[i].first;
+			count++;
+		}
+	}
+
+	cout << count;
+
 }
