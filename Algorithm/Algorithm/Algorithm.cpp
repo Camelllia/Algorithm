@@ -7,34 +7,54 @@
 
 using namespace std;
 
+int DP[41];
+
+int fibonacci(int n)
+{
+	if (n == 0)
+	{
+		DP[0] = 0;
+		return 0;
+	}
+	else if (n == 1)
+	{
+		DP[1] = 1;
+		return 1;
+	}
+
+
+	if (DP[n] != 0)
+	{
+		return DP[n];
+	}
+	else
+	{
+		return DP[n] = fibonacci(n - 1) + fibonacci(n - 2);
+	}
+}
+
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n;
-	int count = 0;
-	int time = 0;
-	cin >> n;
-	vector<pair<int, int>> v(n);
+	int tc;
+	cin >> tc;
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < tc; i++)
 	{
-		cin >> v[i].second >> v[i].first;
-	}
-
-	sort(v.begin(), v.end());
-
-	
-	for (int i = 0; i < n; i++)
-	{
-		if (time <= v[i].second)
+		int n;
+		cin >> n;
+		
+		if (n == 0)
 		{
-			time = v[i].first;
-			count++;
+			cout << 1 << " " << 0 << "\n";
 		}
+		else
+		{
+			cout << fibonacci(n - 1) << " " << fibonacci(n) << "\n";
+		}	
 	}
 
-	cout << count;
-
+		
 }
