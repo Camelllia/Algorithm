@@ -4,33 +4,22 @@
 
 using namespace std;
 
-int DP[102][102][102];
+long long dp[1000001];
 
-int w(int a, int b, int c)
+long long tile(int n)
 {
-	if (a <= 0 || b <= 0 || c <= 0)
+	if (n <= 1)
 	{
 		return 1;
 	}
 
-	if (DP[a + 50][b + 50][c + 50] != 0)
+	if (dp[n] != 0)
 	{
-		return DP[a + 50][b + 50][c + 50];
+		return dp[n];
 	}
 	else
 	{
-		if(a > 20 || b > 20 || c > 20)
-		{
-			return  DP[a + 50][b + 50][c + 50] = w(20, 20, 20);
-		}
-		else if (a < b && b < c)
-		{
-			return DP[a + 50][b + 50][c + 50] = w(a, b, c - 1) + w(a, b - 1, c - 1) - w(a, b - 1, c);
-		}
-		else
-		{
-			return DP[a + 50][b + 50][c + 50] = w(a - 1, b, c) + w(a - 1, b - 1, c) + w(a - 1, b, c - 1) - w(a - 1, b - 1, c - 1);
-		}
+		return dp[n] = ((tile(n - 1) + tile(n - 2)) % 15746);
 	}
 }
 
@@ -39,16 +28,8 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	while (true)
-	{
-		int a, b, c;
-		cin >> a >> b >> c;
+	int n;
+	cin >> n;
 
-		if (a == -1 && b == -1 && c == -1)
-		{
-			break;
-		}
-
-		cout << "w(" << a << ", " << b << ", " << c << ") " << "= " << w(a, b, c) << "\n";
-	}
+	cout << tile(n);
 }
