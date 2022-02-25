@@ -1,35 +1,36 @@
 ﻿#include <iostream>
 #include <vector>
 #include <algorithm>
-#include <queue>
-#include <string>
-#include <utility>
 
 using namespace std;
 
-int DP[41];
+int DP[102][102][102];
 
-int fibonacci(int n)
+int w(int a, int b, int c)
 {
-	if (n == 0)
+	if (a <= 0 || b <= 0 || c <= 0)
 	{
-		DP[0] = 0;
-		return 0;
-	}
-	else if (n == 1)
-	{
-		DP[1] = 1;
 		return 1;
 	}
 
-
-	if (DP[n] != 0)
+	if (DP[a + 50][b + 50][c + 50] != 0)
 	{
-		return DP[n];
+		return DP[a + 50][b + 50][c + 50];
 	}
 	else
 	{
-		return DP[n] = fibonacci(n - 1) + fibonacci(n - 2);
+		if(a > 20 || b > 20 || c > 20)
+		{
+			return  DP[a + 50][b + 50][c + 50] = w(20, 20, 20);
+		}
+		else if (a < b && b < c)
+		{
+			return DP[a + 50][b + 50][c + 50] = w(a, b, c - 1) + w(a, b - 1, c - 1) - w(a, b - 1, c);
+		}
+		else
+		{
+			return DP[a + 50][b + 50][c + 50] = w(a - 1, b, c) + w(a - 1, b - 1, c) + w(a - 1, b, c - 1) - w(a - 1, b - 1, c - 1);
+		}
 	}
 }
 
@@ -38,23 +39,16 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int tc;
-	cin >> tc;
-
-	for (int i = 0; i < tc; i++)
+	while (true)
 	{
-		int n;
-		cin >> n;
-		
-		if (n == 0)
-		{
-			cout << 1 << " " << 0 << "\n";
-		}
-		else
-		{
-			cout << fibonacci(n - 1) << " " << fibonacci(n) << "\n";
-		}	
-	}
+		int a, b, c;
+		cin >> a >> b >> c;
 
-		
+		if (a == -1 && b == -1 && c == -1)
+		{
+			break;
+		}
+
+		cout << "w(" << a << ", " << b << ", " << c << ") " << "= " << w(a, b, c) << "\n";
+	}
 }
