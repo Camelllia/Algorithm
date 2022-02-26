@@ -4,22 +4,30 @@
 
 using namespace std;
 
-long long dp[1000001];
+int n, m;
+int arr[9];
+bool visited[9];
 
-long long tile(int n)
+void dfs(int v)
 {
-	if (n <= 1)
+	if (v == m)
 	{
-		return 1;
+		for (int i = 0; i < m; i++)
+		{
+			cout << arr[i] << " ";
+		}
+		cout << "\n";
 	}
 
-	if (dp[n] != 0)
+	for (int i = 1; i <= n; i++)
 	{
-		return dp[n];
-	}
-	else
-	{
-		return dp[n] = ((tile(n - 1) + tile(n - 2)) % 15746);
+		if (visited[i] == false)
+		{
+			visited[i] = true;
+			arr[v] = i;
+			dfs(v + 1);
+			visited[i] = false;
+		}
 	}
 }
 
@@ -28,8 +36,7 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n;
-	cin >> n;
+	cin >> n >> m;
 
-	cout << tile(n);
+	dfs(0);
 }
