@@ -1,34 +1,44 @@
 ﻿#include <iostream>
-#include <vector>
 #include <algorithm>
 
 using namespace std;
 
 int n, m;
 int arr[9];
-bool visited[9];
+int selected[9];
 
-void dfs(int v)
+void print()
 {
-	if (v == m)
+	for (int i = 0; i < n; i++)
 	{
-		for (int i = 0; i < m; i++)
+		if (selected[i])
 		{
 			cout << arr[i] << " ";
 		}
-		cout << "\n";
+	}
+	cout << "\n";
+}
+
+void DFS(int idx, int cnt)
+{
+	if (cnt == m)
+	{
+		print();
+		return;
 	}
 
-	for (int i = 1; i <= n; i++)
+	for (int i = idx; i < n; i++)
 	{
-		if (visited[i] == false)
+		if (selected[i])
 		{
-			visited[i] = true;
-			arr[v] = i;
-			dfs(v + 1);
-			visited[i] = false;
+			continue;
 		}
+
+		selected[i] = true;
+		DFS(i + 1, cnt + 1);
+		selected[i] = false;
 	}
+
 }
 
 int main()
@@ -38,5 +48,10 @@ int main()
 
 	cin >> n >> m;
 
-	dfs(0);
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = i + 1;
+	}
+
+	DFS(0, 0);
 }
