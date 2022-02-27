@@ -5,38 +5,24 @@ using namespace std;
 
 int n, m;
 int arr[9];
-int selected[9];
+int select[9] = { 0, };
 
-void print()
-{
-	for (int i = 0; i < n; i++)
-	{
-		if (selected[i])
-		{
-			cout << arr[i] << " ";
-		}
-	}
-	cout << "\n";
-}
-
-void DFS(int idx, int cnt)
+void dfs(int idx, int cnt)
 {
 	if (cnt == m)
 	{
-		print();
+		for (int i = 0; i < m; i++)
+		{
+			cout << select[i] << " ";
+		}
+		cout << "\n";
 		return;
 	}
-
+	
 	for (int i = idx; i < n; i++)
 	{
-		if (selected[i])
-		{
-			continue;
-		}
-
-		selected[i] = true;
-		DFS(i + 1, cnt + 1);
-		selected[i] = false;
+		select[cnt] = arr[i];
+		dfs(i, cnt + 1);
 	}
 
 }
@@ -53,5 +39,6 @@ int main()
 		arr[i] = i + 1;
 	}
 
-	DFS(0, 0);
+	dfs(0, 0);
+	
 }
