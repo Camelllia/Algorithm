@@ -5,30 +5,35 @@
 
 using namespace std;
 
-int arr[10001];
-int dp[10001];
-
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
-	
+
 	int n;
+	int cnt = 0;
 	cin >> n;
+	
+	vector<int> v(n);
 
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
-		cin >> arr[i];
+		cin >> v[i];
 	}
 
-	dp[1] = arr[1];
-	dp[2] = arr[1] + arr[2];
-	dp[3] = max(arr[1] + arr[2], max(arr[1] + arr[3], arr[2] + arr[3]));
+	int max = v[n - 1];
 
-	for (int i = 4; i <= n; i++)
+	for (int i = n - 1; i > 0; i--)
 	{
-		dp[i] = max(dp[i - 1], max(dp[i - 2] + arr[i], dp[i - 3] + arr[i - 1] + arr[i]));
+		if (v[i] <= v[i - 1])
+		{
+			while (v[i] <= v[i - 1])
+			{
+				v[i - 1]--;
+				cnt++;
+			}
+		}
 	}
 
-	cout << dp[n];
+	cout << cnt;
 }
