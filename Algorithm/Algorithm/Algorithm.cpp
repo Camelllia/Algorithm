@@ -1,8 +1,6 @@
 ﻿#include <iostream>
 #include <algorithm>
-#include <string>
 #include <vector>
-#include <list>
 
 using namespace std;
 
@@ -11,58 +9,26 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	list<char> li;
-	
-	string s;
-	cin >> s;
-	
-	for (int i = 0; i < s.length(); i++)
-	{
-		li.push_back(s.at(i));
-	}
-
-	auto cursor = li.end();
-
+	long long dp[12];
 	int tc;
 	cin >> tc;
-
-	for (int i = 0; i < tc; i++)
+	while (tc)
 	{
-		char c;
-		cin >> c;
+		tc--;
 
-		if (c == 'L')
-		{
-			if (cursor != li.begin())
-			{
-				cursor--;
-			}
-		}
-		else if (c == 'D')
-		{
-			if (cursor != li.end())
-			{
-				cursor++;
-			}
-		}
-		else if (c == 'B')
-		{
-			if (cursor != li.begin())
-			{
-				cursor = li.erase(--cursor);
-			}
-		}
-		else if (c == 'P')
-		{
-			char ch;
-			cin >> ch;
+		int n;
+		cin >> n;
 
-			li.insert(cursor, ch);
+		dp[1] = 1;
+		dp[2] = 2;
+		dp[3] = 4;
+
+		for (int i = 4; i <= n; i++)
+		{
+			dp[i] = dp[i - 3] + dp[i - 2] + dp[i - 1];
 		}
+
+		cout << dp[n] << "\n";
 	}
-
-	for (auto c : li)
-	{
-		cout << c;
-	}
+	
 }
