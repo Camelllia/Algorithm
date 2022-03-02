@@ -1,7 +1,8 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <vector>
-#include <cmath>
+#include <stack>
+#include <string>
 
 using namespace std;
 
@@ -10,26 +11,32 @@ int main()
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
-	int n;
-	cin >> n;
-	vector<int> v(n);
+	stack<char> st;
+	int cnt = 0;
+	string s;
+	cin >> s;
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < s.length(); i++)
 	{
-		cin >> v[i];
+		char c = s[i];
+
+		if (c == '(')
+		{
+			st.push(c);
+		}
+		else
+		{
+			st.pop();
+			if (s[i - 1] == '(')
+			{
+				cnt += st.size();
+			}
+			else if (s[i - 1] == ')')
+			{
+				cnt += 1;
+			}
+		}
 	}
 
-	sort(v.begin(), v.end());
-
-	int m;
-	cin >> m;
-	for (int i = 0; i < m; i++)
-	{
-		int a;
-		cin >> a;
-
-		int ret = upper_bound(v.begin(), v.end(), a) - lower_bound(v.begin(), v.end(), a);
-
-		cout << ret << "\n";
-	}
+	cout << cnt;
 }
