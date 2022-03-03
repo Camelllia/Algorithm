@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <stack>
@@ -59,7 +59,7 @@ int main()
 			st.pop();
 			value /= 3;
 		}
-	}	
+	}
 
 	if (st.empty())
 	{
