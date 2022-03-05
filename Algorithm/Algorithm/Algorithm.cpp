@@ -3,12 +3,11 @@
 #include <vector>
 #include <stack>
 #include <string>
-#define MOD 10007
 
 using namespace std;
 
-long long dp[1001][10];
-long long result = 0;
+long long curTime;
+long long exTime;
 
 int main()
 {
@@ -17,31 +16,27 @@ int main()
 	
 	int n;
 	cin >> n;
-	
-	for (int i = 0; i <= 9; i++)
+
+	vector<pair<int, int>> v;
+
+	for (int i = 0; i < n; i++)
 	{
-		dp[1][i] = 1;
+		int a, b;
+		cin >> a >> b;
+		v.push_back(pair<int, int>(a, b));
 	}
 
-	for (int i = 2; i <= n; i++)
+	sort(v.begin(), v.end());
+
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j <= 9; j++)
+		curTime = v[i].first;
+		if (exTime > curTime)
 		{
-			if (j == 0)
-			{
-				dp[i][j] = 1;
-			}
-			else
-			{
-				dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % MOD;
-			}			
+			curTime = exTime;
 		}
+		exTime = curTime + v[i].second;
 	}
 
-	for (int i = 0; i <= 9; i++)
-	{
-		result += dp[n][i];
-	}
-
-	cout << result % MOD;
+	cout << exTime;
 }
