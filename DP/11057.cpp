@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <stack>
@@ -14,10 +14,10 @@ int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
-	
+
 	int n;
 	cin >> n;
-	
+
 	for (int i = 0; i <= 9; i++)
 	{
 		dp[1][i] = 1;
@@ -34,7 +34,7 @@ int main()
 			else
 			{
 				dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % MOD;
-			}			
+			}
 		}
 	}
 
