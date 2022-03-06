@@ -6,37 +6,34 @@
 
 using namespace std;
 
-long long curTime;
-long long exTime;
+long long card[1001];
+long long dp[1001];
+long long result;
 
 int main()
 {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 	
-	int n;
-	cin >> n;
+	int num;
+	cin >> num;
 
-	vector<pair<int, int>> v;
-
-	for (int i = 0; i < n; i++)
+	for (int i = 1; i <= num; i++)
 	{
-		int a, b;
-		cin >> a >> b;
-		v.push_back(pair<int, int>(a, b));
+		cin >> card[i];
 	}
 
-	sort(v.begin(), v.end());
+	dp[1] = card[1];
 
-	for (int i = 0; i < n; i++)
+	for (int i = 2; i <= num; i++)
 	{
-		curTime = v[i].first;
-		if (exTime > curTime)
+		dp[i] = card[i];
+
+		for (int j = 1; j <= i; j++)
 		{
-			curTime = exTime;
+			dp[i] = max(dp[i], dp[i - j] + card[j]);
 		}
-		exTime = curTime + v[i].second;
 	}
 
-	cout << exTime;
+	cout << dp[num];
 }
