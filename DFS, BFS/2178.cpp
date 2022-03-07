@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <stack>
@@ -41,7 +41,7 @@ int main()
 	queue<pair<int, int>> q;
 	q.push({ 0, 0 });
 	dist[0][0] = 0;
-	
+
 	while (!q.empty())
 	{
 		pair<int, int> cur = q.front();
@@ -69,4 +69,4 @@ int main()
 	cout << dist[n - 1][m - 1] + 1;
 }
 
-	
+
