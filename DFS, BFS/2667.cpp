@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <stack>
@@ -87,4 +87,4 @@ int main()
 	}
 }
 
-	
+
