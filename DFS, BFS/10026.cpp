@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -49,7 +49,7 @@ int main()
 	for (int k = 0; k < 4; k++)
 	{
 		bool visited[102][102] = { 0, };
-		
+
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
@@ -95,4 +95,4 @@ int main()
 }
 
 
-	
+
