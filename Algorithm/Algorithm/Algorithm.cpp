@@ -8,91 +8,65 @@
 
 using namespace std;
 
-int board[101][101];
-int visited[101][101];
-int dx[4] = { 1,0,-1,0 };
-int dy[4] = { 0,1,0,-1 };
-int n, m, k, cnt;
-queue<pair<int, int>> q;
-vector<int> v;
+int dx[8] = { 2,1,1,2,-1,-2,-2,-1 };
+int dy[8] = { 1,2,-2,-1,-2,-1,1,2 };
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	cin >> n >> m >> k;
+	int tc;
+	cin >> tc;
 
-	for (int i = 0; i < n; i++)
+	while (tc)
 	{
-		for (int j = 0; j < m; j++)
+		int dist[301][301];
+		queue<pair<int, int>> q;
+		int n;
+		cin >> n;
+
+		for (int i = 0; i < n; i++)
 		{
-			board[i][j] = 1;
+			for (int j = 0; j < n; j++)
+			{
+				dist[i][j] = -1;
+			}
 		}
-	}
-	
-	for (int i = 0; i < k; i++)
-	{
-		int x1, y1, x2, y2;
+
+		int x1, x2, y1, y2;
 		cin >> x1 >> y1 >> x2 >> y2;
-		for (int j = y1; j < y2; j++)
+
+		dist[x1][y1] = 0;
+		q.push({ x1,y1 });
+
+		while (!q.empty())
 		{
-			for (int h = x1; h < x2; h++)
-			{
-				board[j][h] = 0;
-			}
-		}
-	}
+			auto cur = q.front();
+			q.pop();
 
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			if (board[i][j] == 0 || visited[i][j])
+			for (int dir = 0; dir < 8; dir++)
 			{
-				continue;
-			}
+				int nx = cur.x + dx[dir];
+				int ny = cur.y + dy[dir];
 
-			visited[i][j] = 1;
-			q.push({ i,j });
-			cnt++;
-			int area = 0;
-
-			while (!q.empty())
-			{
-				area++;
-				auto cur = q.front();
-				q.pop();
-				
-				for (int dir = 0; dir < 4; dir++)
+				if (nx < 0 || nx >= n || ny < 0 || ny >= n)
 				{
-					int nx = cur.x + dx[dir];
-					int ny = cur.y + dy[dir];
-
-					if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-					{
-						continue;
-					}
-					if (visited[nx][ny] || board[nx][ny] != 1)
-					{
-						continue;
-					}
-
-					visited[nx][ny] = 1;
-					q.push({ nx, ny });
+					continue;
 				}
+				if (dist[nx][ny] >= 0)
+				{
+					continue;
+				}
+
+				dist[nx][ny] = dist[cur.x][cur.y] + 1;
+				q.push({ nx, ny });
 			}
-			v.push_back(area);
 		}
-	}
 
-	sort(v.begin(), v.end());
+		cout << dist[x2][y2] << "\n";
 
-	cout << cnt << "\n";
-
-	for (int i = 0; i < cnt; i++)
-	{
-		cout << v[i] << " ";
+		tc--;
 	}
 }
 
