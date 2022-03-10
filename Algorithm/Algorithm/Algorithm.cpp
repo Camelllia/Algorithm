@@ -1,98 +1,101 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <vector>
+#include <stack>
 #include <queue>
-#include <string>
 #define x first
 #define y second
 
 using namespace std;
 
-int board[102][102][4] = { 0, };
-int dx[4] = { 1,0,-1,0 };
+char board[1001][1001] = { 0, };
+int dist1[1001][1001];
+int dist2[1001][1001];
+int dx[4] = { 1, 0, -1, 0 };
 int dy[4] = { 0, -1, 0, 1 };
-int n;
-int cnt[4] = { 0, };
+int n, m;
+int result = 0;
+queue<pair<int, int>> q1;
+queue<pair<int, int>> q2;
 
 int main()
 {
-	cin.tie(NULL);
-	ios::sync_with_stdio(false);
-
-	cin >> n;
+	cin >> n >> m;
 
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < n; j++)
+		for (int j = 0; j < m; j++)
 		{
-			char c;
-			cin >> c;
-			if (c == 'R')
+			dist1[i][j] = -1;
+			dist2[i][j] = -1;
+			cin >> board[i][j];
+			if (board[i][j] == 'J')
 			{
-				board[i][j][0] = 1;
+				q2.push({ i,j });
+				dist2[i][j] = 0;
 			}
-			if (c == 'G')
+			if (board[i][j] == 'F')
 			{
-				board[i][j][1] = 1;
-			}
-			if (c == 'R' || c == 'G')
-			{
-				board[i][j][2] = 1;
-			}
-			if (c == 'B')
-			{
-				board[i][j][3] = 1;
+				q1.push({ i,j });
+				dist1[i][j] = 0;
 			}
 		}
 	}
 
-	for (int k = 0; k < 4; k++)
+	while (!q1.empty())
 	{
-		bool visited[102][102] = { 0, };
-		
-		for (int i = 0; i < n; i++)
+		pair<int, int> cur = q1.front();
+		q1.pop();
+
+		for (int dir = 0; dir < 4; dir++)
 		{
-			for (int j = 0; j < n; j++)
+			int nx = cur.x + dx[dir];
+			int ny = cur.y + dy[dir];
+
+			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
 			{
-				if (visited[i][j] || board[i][j][k] == 0)
-				{
-					continue;
-				}
-
-				queue<pair<int, int>> q;
-				visited[i][j] = 1;
-				q.push({ i,j });
-				cnt[k]++;
-
-				while (!q.empty())
-				{
-					pair<int, int> cur = q.front();
-					q.pop();
-
-					for (int dir = 0; dir < 4; dir++)
-					{
-						int nx = cur.x + dx[dir];
-						int ny = cur.y + dy[dir];
-
-						if (nx < 0 || nx >= n || ny < 0 || ny >= n)
-						{
-							continue;
-						}
-						if (visited[nx][ny] || board[nx][ny][k] != 1)
-						{
-							continue;
-						}
-
-						visited[nx][ny] = 1;
-						q.push({ nx, ny });
-					}
-				}
+				continue;
 			}
+			if (dist1[nx][ny] >= 0 || board[nx][ny] == '#')
+			{
+				continue;
+			}
+
+			dist1[nx][ny] = dist1[cur.x][cur.y] + 1;
+			q1.push({ nx, ny });
 		}
 	}
 
-	cout << cnt[0] + cnt[1] + cnt[3] << " " << cnt[2] + cnt[3];
+	while (!q2.empty())
+	{
+		pair<int, int> cur = q2.front();
+		q2.pop();
+
+		for (int dir = 0; dir < 4; dir++)
+		{
+			int nx = cur.x + dx[dir];
+			int ny = cur.y + dy[dir];
+
+			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+			{
+				cout << dist2[cur.x][cur.y] + 1;
+				return 0;
+			}
+			if (dist2[nx][ny] >= 0 || board[nx][ny] == '#')
+			{
+				continue;
+			}
+			if (dist1[nx][ny] != -1 && dist1[nx][ny] <= dist2[cur.x][cur.y] + 1)
+			{
+				continue;
+			}
+
+			dist2[nx][ny] = dist2[cur.x][cur.y] + 1;
+			q2.push({ nx, ny });
+		}
+	}
+
+	cout << "IMPOSSIBLE";
 }
 
 
-	
