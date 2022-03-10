@@ -8,46 +8,92 @@
 
 using namespace std;
 
-int board[100005];
-int dist[100005];
-int dx[3] = { 1, -1, 2 };
-int n, m;
-queue<int> q;
+int board[101][101];
+int visited[101][101];
+int dx[4] = { 1,0,-1,0 };
+int dy[4] = { 0,1,0,-1 };
+int n, m, k, cnt;
+queue<pair<int, int>> q;
+vector<int> v;
 
 int main()
 {
-	cin >> n >> m;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
 
-	for (int i = 0; i < 100005; i++)
+	cin >> n >> m >> k;
+
+	for (int i = 0; i < n; i++)
 	{
-		dist[i] = -1;
-	}
-
-	dist[n] = 0;
-	q.push(n);
-	
-	while (dist[m] == -1)
-	{
-		int cur = q.front();
-		q.pop();
-
-		for (int dir : {cur + 1, cur - 1, cur * 2})
+		for (int j = 0; j < m; j++)
 		{
-			if (dir < 0 || dir >= 100005)
+			board[i][j] = 1;
+		}
+	}
+	
+	for (int i = 0; i < k; i++)
+	{
+		int x1, y1, x2, y2;
+		cin >> x1 >> y1 >> x2 >> y2;
+		for (int j = y1; j < y2; j++)
+		{
+			for (int h = x1; h < x2; h++)
 			{
-				continue;
+				board[j][h] = 0;
 			}
-			if (dist[dir] != -1)
-			{
-				continue;
-			}
-
-			dist[dir] = dist[cur] + 1;
-			q.push(dir);
 		}
 	}
 
-	cout << dist[m];
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (board[i][j] == 0 || visited[i][j])
+			{
+				continue;
+			}
+
+			visited[i][j] = 1;
+			q.push({ i,j });
+			cnt++;
+			int area = 0;
+
+			while (!q.empty())
+			{
+				area++;
+				auto cur = q.front();
+				q.pop();
+				
+				for (int dir = 0; dir < 4; dir++)
+				{
+					int nx = cur.x + dx[dir];
+					int ny = cur.y + dy[dir];
+
+					if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+					{
+						continue;
+					}
+					if (visited[nx][ny] || board[nx][ny] != 1)
+					{
+						continue;
+					}
+
+					visited[nx][ny] = 1;
+					q.push({ nx, ny });
+				}
+			}
+			v.push_back(area);
+		}
+	}
+
+	sort(v.begin(), v.end());
+
+	cout << cnt << "\n";
+
+	for (int i = 0; i < cnt; i++)
+	{
+		cout << v[i] << " ";
+	}
 }
 
 
