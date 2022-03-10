@@ -8,94 +8,46 @@
 
 using namespace std;
 
-char board[1001][1001] = { 0, };
-int dist1[1001][1001];
-int dist2[1001][1001];
-int dx[4] = { 1, 0, -1, 0 };
-int dy[4] = { 0, -1, 0, 1 };
+int board[100005];
+int dist[100005];
+int dx[3] = { 1, -1, 2 };
 int n, m;
-int result = 0;
-queue<pair<int, int>> q1;
-queue<pair<int, int>> q2;
+queue<int> q;
 
 int main()
 {
 	cin >> n >> m;
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < 100005; i++)
 	{
-		for (int j = 0; j < m; j++)
+		dist[i] = -1;
+	}
+
+	dist[n] = 0;
+	q.push(n);
+	
+	while (dist[m] == -1)
+	{
+		int cur = q.front();
+		q.pop();
+
+		for (int dir : {cur + 1, cur - 1, cur * 2})
 		{
-			dist1[i][j] = -1;
-			dist2[i][j] = -1;
-			cin >> board[i][j];
-			if (board[i][j] == 'J')
+			if (dir < 0 || dir >= 100005)
 			{
-				q2.push({ i,j });
-				dist2[i][j] = 0;
+				continue;
 			}
-			if (board[i][j] == 'F')
+			if (dist[dir] != -1)
 			{
-				q1.push({ i,j });
-				dist1[i][j] = 0;
+				continue;
 			}
+
+			dist[dir] = dist[cur] + 1;
+			q.push(dir);
 		}
 	}
 
-	while (!q1.empty())
-	{
-		pair<int, int> cur = q1.front();
-		q1.pop();
-
-		for (int dir = 0; dir < 4; dir++)
-		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
-
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-			{
-				continue;
-			}
-			if (dist1[nx][ny] >= 0 || board[nx][ny] == '#')
-			{
-				continue;
-			}
-
-			dist1[nx][ny] = dist1[cur.x][cur.y] + 1;
-			q1.push({ nx, ny });
-		}
-	}
-
-	while (!q2.empty())
-	{
-		pair<int, int> cur = q2.front();
-		q2.pop();
-
-		for (int dir = 0; dir < 4; dir++)
-		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
-
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-			{
-				cout << dist2[cur.x][cur.y] + 1;
-				return 0;
-			}
-			if (dist2[nx][ny] >= 0 || board[nx][ny] == '#')
-			{
-				continue;
-			}
-			if (dist1[nx][ny] != -1 && dist1[nx][ny] <= dist2[cur.x][cur.y] + 1)
-			{
-				continue;
-			}
-
-			dist2[nx][ny] = dist2[cur.x][cur.y] + 1;
-			q2.push({ nx, ny });
-		}
-	}
-
-	cout << "IMPOSSIBLE";
+	cout << dist[m];
 }
 
 
