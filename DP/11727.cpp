@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -13,7 +13,7 @@ int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
-	
+
 	int n;
 	cin >> n;
 
