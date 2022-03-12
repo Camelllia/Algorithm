@@ -7,7 +7,9 @@
 
 using namespace std;
 
-long long dp[1001];
+int dp[1001] = { 0, };
+int arr[1001] = { 0, };
+int mx = 0;
 
 int main()
 {
@@ -17,16 +19,34 @@ int main()
 	int n;
 	cin >> n;
 
-	dp[1] = 1;
-	dp[2] = 3;
-
-	for (int i = 3; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
-		dp[i] = (dp[i - 2] * 2 + dp[i - 1]) % MOD;
+		cin >> arr[i];
+		dp[i] = 1;
 	}
 
-	cout << dp[n];
+	for (int i = 0; i < n; i++)
+	{
+		if (i == 0)
+		{
+			dp[i] = 1;
+		}
 
+		for (int j = 0; j < i; j++)
+		{
+			if (arr[i] > arr[j])
+			{
+				if (dp[i] < dp[j] + 1)
+				{
+					dp[i] = dp[j] + 1;
+				}
+			}
+		}
+
+		mx = max(mx, dp[i]);
+	}
+
+	cout << mx;
 }
 
 
