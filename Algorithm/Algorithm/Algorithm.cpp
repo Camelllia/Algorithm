@@ -3,50 +3,53 @@
 #include <vector>
 #include <queue>
 #include <cmath>
-#define MOD 10007
+#define x first
+#define y second
 
 using namespace std;
 
-int dp[1001] = { 0, };
-int arr[1001] = { 0, };
-int mx = 0;
+int board[1001][1001];
+bool visited[1001];
+int n, m, cnt;
+
+void dfs(int x)
+{
+	visited[x] = true;
+
+	for (int i = 1; i <= n; i++)
+	{
+		if (!visited[i] && board[x][i])
+		{
+			dfs(i);
+		}
+	}
+}
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 	
-	int n;
-	cin >> n;
+	cin >> n >> m;
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < m; i++)
 	{
-		cin >> arr[i];
-		dp[i] = 1;
+		int u, v;
+		cin >> u >> v;
+		board[u][v] = 1;
+		board[v][u] = 1;
 	}
 
-	for (int i = 0; i < n; i++)
+	for (int i = 1; i <= n; i++)
 	{
-		if (i == 0)
+		if (!visited[i])
 		{
-			dp[i] = 1;
+			cnt++;
+			dfs(i);
 		}
-
-		for (int j = 0; j < i; j++)
-		{
-			if (arr[i] > arr[j])
-			{
-				if (dp[i] < dp[j] + 1)
-				{
-					dp[i] = dp[j] + 1;
-				}
-			}
-		}
-
-		mx = max(mx, dp[i]);
 	}
 
-	cout << mx;
+	cout << cnt;
 }
 
 
