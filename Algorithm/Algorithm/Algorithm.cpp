@@ -6,9 +6,8 @@
 
 using namespace std;
 
-long long dp[100001];
-long long arr[100001];
-long long result = -1001;
+long long dp[1001];
+long long result = 0;
 
 int main()
 {
@@ -18,20 +17,26 @@ int main()
 	int n;
 	cin >> n;
 
-	for (int i = 1; i <= n; i++)
+	vector<int> v(n);
+
+	for (int i = 0; i < n; i++)
 	{
-		cin >> arr[i];
-		dp[i] = arr[i];
+		cin >> v[i];
+		dp[i] = v[i];
 	}
 
-	dp[0] = result;
-
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
-		dp[i] = max(dp[i], dp[i - 1] + arr[i]);
-		result = max(dp[i], result);
+		for (int j = 0; j < i; j++)
+		{
+			if (v[i] > v[j] && dp[i] < dp[j] + v[i])
+			{
+				dp[i] = dp[j] + v[i];
+			}
+		}
+		result = max(result, dp[i]);
 	}
-
+	
 	cout << result;
 }
 
