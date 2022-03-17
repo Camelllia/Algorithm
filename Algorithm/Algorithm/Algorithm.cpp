@@ -6,9 +6,9 @@
 
 using namespace std;
 
-int dp[16];
-int t[16];
-int p[16];
+int arr[1001];
+int dp[1001];
+int result = 0;
 
 int main()
 {
@@ -18,26 +18,27 @@ int main()
 	int n;
 	cin >> n;
 
-	for (int i = 1; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
-		cin >> t[i] >> p[i];
+		cin >> arr[i];
 	}
 
-	for (int i = n; i > 0; i--)
+	for (int i = 0; i < n; i++)
 	{
-		int totalDate = i + t[i];
+		dp[i] = 1;
 
-		if (totalDate > n + 1)
+		for (int j = 0; j < i; j++)
 		{
-			dp[i] = dp[i + 1];
+			if (arr[i] < arr[j])
+			{
+				dp[i] = max(dp[i], dp[j] + 1);
+			}
 		}
-		else
-		{
-			dp[i] = max(dp[i + 1], dp[totalDate] + p[i]);
-		}
+
+		result = max(dp[i], result);
 	}
 
-	cout << dp[1];
+	cout << result;
 }
 
 
