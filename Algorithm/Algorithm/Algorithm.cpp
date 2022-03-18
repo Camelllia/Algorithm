@@ -7,69 +7,47 @@
 
 using namespace std;
 
-int dp[1001][1001];
-int cnt;
-string result;
+int dp[10001];
+int coin[101];
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	string s1, s2;
+	int n, k;
+	cin >> n >> k;
 
-	cin >> s1 >> s2;
-
-	for (int i = 0; i <= s1.length(); i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j <= s2.length(); j++)
-		{
-			if (i == 0 || j == 0)
-			{
-				dp[i][j] = 0;
-				continue;
-			}
+		cin >> coin[i];
+	}
 
-			if (s1[i - 1] == s2[j - 1])
+	for (int i = 0; i <= k; i++)
+	{
+		dp[i] = 10002;
+	}
+
+	dp[0] = 0;
+
+	for (int i = 1; i <= k; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (i - coin[j] >= 0)
 			{
-				dp[i][j] = dp[i - 1][j - 1] + 1;
-			}
-			else
-			{
-				dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
-			}
-			cnt = max(cnt, dp[i][j]);
+				dp[i] = min(dp[i], dp[i - coin[j]] + 1);
+			}	
 		}
 	}
 
-	cout << cnt << "\n";
-
-	int i = s1.length();
-	int j = s2.length();
-	stack<int> st;
-
-	while (dp[i][j] != 0)
+	if (dp[k] == 10002)
 	{
-		if (dp[i][j] == dp[i - 1][j])
-		{
-			i--;
-		}
-		else if (dp[i][j] == dp[i][j - 1])
-		{
-			j--;
-		}
-		else
-		{
-			st.push(i);
-			i--;
-			j--;
-		}
+		cout << -1;
 	}
-
-	while (!st.empty())
+	else
 	{
-		cout << s1[st.top() - 1];
-		st.pop();
+		cout << dp[k];
 	}
 }
 
