@@ -4,57 +4,54 @@
 #include <queue>
 #include <stack>
 #include <string>
+#define x first
+#define y second
 
 using namespace std;
 
-int f, s, g, u, d;
-int dist[1000001] = { -1, };
-queue<int> q;
+char board[1001][1001][2];
+int dist[1001][1001][2];
+int dx[4] = { 1, 0 , -1 , 0 };
+int dy[4] = { 0, 1 , 0 , -1 };
+int n, m;
+queue<pair<int, int>> q;
+
+//0-이동, 1-벽 -> 벽 1개 부수기 가능 -> 최단거리 
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	cin >> f >> s >> g >> u >> d;
+	cin >> n >> m;
 
-	for (int i = 0; i <= f; i++)
+	for (int i = 1; i <= n; i++)
 	{
-		dist[i] = -1;
-	}
-
-	q.push(s);
-	dist[s] = 0;
-
-	while (!q.empty())
-	{
-		int cur = q.front();
-		q.pop();
-
-		for (int dir : { cur + u, cur - d })
+		for (int j = 1; j <= m; j++)
 		{
-			if (dir > 1000000 || dir <= 0)
-			{
-				continue;
-			}
-			if (dist[dir] >= 0)
-			{
-				continue;
-			}
-
-			dist[dir] = dist[cur] + 1;
-			q.push(dir);
+			cin >> board[i][j][0];
 		}
 	}
 
-	if (dist[g] == -1)
+	q.push({ 1,1 });
+	dist[1][1][0] = 0;
+	
+	while (!q.empty())
 	{
-		cout << "use the stairs";
-	}
-	else
-	{
-		cout << dist[g];
+		auto cur = q.front();
+		q.pop();
+
+		for (int dir = 0; dir < 4; dir++)
+		{
+			int nx = cur.x + dx[dir];
+			int ny = cur.y + dy[dir];
+
+			if (nx < 0 || nx > n || ny < 0 || ny > m)
+			{
+				continue;
+			}
+			
+
+		}
 	}
 }
-
-
