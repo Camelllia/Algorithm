@@ -7,47 +7,53 @@
 
 using namespace std;
 
-int dp[10001];
-int coin[101];
+int f, s, g, u, d;
+int dist[1000001] = { -1, };
+queue<int> q;
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	int n, k;
-	cin >> n >> k;
+	cin >> f >> s >> g >> u >> d;
 
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i <= f; i++)
 	{
-		cin >> coin[i];
+		dist[i] = -1;
 	}
 
-	for (int i = 0; i <= k; i++)
-	{
-		dp[i] = 10002;
-	}
+	q.push(s);
+	dist[s] = 0;
 
-	dp[0] = 0;
-
-	for (int i = 1; i <= k; i++)
+	while (!q.empty())
 	{
-		for (int j = 0; j < n; j++)
+		int cur = q.front();
+		q.pop();
+
+		for (int dir : { cur + u, cur - d })
 		{
-			if (i - coin[j] >= 0)
+			if (dir > 1000000 || dir <= 0)
 			{
-				dp[i] = min(dp[i], dp[i - coin[j]] + 1);
-			}	
+				continue;
+			}
+			if (dist[dir] >= 0)
+			{
+				continue;
+			}
+
+			dist[dir] = dist[cur] + 1;
+			q.push(dir);
 		}
 	}
 
-	if (dp[k] == 10002)
+	if (dist[g] == -1)
 	{
-		cout << -1;
+		cout << "use the stairs";
 	}
 	else
 	{
-		cout << dp[k];
+		cout << dist[g];
 	}
 }
 
