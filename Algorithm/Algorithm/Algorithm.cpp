@@ -2,53 +2,33 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
-#include <stack>
-#include <string>
+#include <cmath>
 
 using namespace std;
 
-int dp[10001];
-int coin[101];
+int g_Arr[2][3];
+
+int(*func(int arg))[2][3]
+{
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			g_Arr[i][j] = arg;
+		}
+	}
+	return &g_Arr;
+}
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	int n, k;
-	cin >> n >> k;
+	cout << (*func(7))[0][0] << endl;
+	cout << (*func(7))[1][2] << endl;
 
-	for (int i = 0; i < n; i++)
-	{
-		cin >> coin[i];
-	}
-
-	for (int i = 0; i <= k; i++)
-	{
-		dp[i] = 10002;
-	}
-
-	dp[0] = 0;
-
-	for (int i = 1; i <= k; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			if (i - coin[j] >= 0)
-			{
-				dp[i] = min(dp[i], dp[i - coin[j]] + 1);
-			}	
-		}
-	}
-
-	if (dp[k] == 10002)
-	{
-		cout << -1;
-	}
-	else
-	{
-		cout << dp[k];
-	}
+	return 0;
 }
 
 
