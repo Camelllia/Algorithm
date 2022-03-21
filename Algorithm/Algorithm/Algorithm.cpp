@@ -3,13 +3,13 @@
 #include <queue>
 #include <cstring>
 #include <vector>
-
+#define MAX 100002
 using namespace std;
 
+bool visited[MAX];
 queue<pair<int, int>> q;
-bool visited[100002];
-int cnt;
-int minTime;
+int minTime = MAX;
+bool first = false;
 
 int main()
 {
@@ -19,8 +19,10 @@ int main()
 	int n, k;
 	cin >> n >> k;
 
-	q.push({n,0});
-	visited[n] = true;
+	memset(visited, false, MAX);
+	
+	q.push({ n, 0 });
+	visited[n] = 1;
 
 	while (!q.empty())
 	{
@@ -29,30 +31,26 @@ int main()
 		q.pop();
 		visited[curPos] = true;
 
-		if (cnt == 0 && curPos == k)
+		if (curPos == k && curSec <= minTime)
 		{
 			minTime = curSec;
-			cnt++;
-		}
-		if (cnt > 0 && curPos == k && curSec == minTime)
-		{
-			cnt++;
 		}
 
 		for (int dir : {curPos + 1, curPos - 1, curPos * 2})
 		{
-			if (dir < 0 || dir > 100001)
+			if (dir >= 0 && dir < 100001 && dir == curPos * 2 && !visited[dir])
 			{
+				q.push({ dir, curSec });
 				continue;
 			}
-			if (!visited[dir])
+			if (dir >= 0 && dir < 100001 && !visited[dir])
 			{
 				q.push({ dir, curSec + 1 });
 			}
 		}
 	}
 
-	cout << minTime << "\n" << cnt - 1;
+	cout << minTime;
 }
 
 
