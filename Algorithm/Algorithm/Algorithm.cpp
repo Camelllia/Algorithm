@@ -1,106 +1,69 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <queue>
-#define x first
-#define y second
+#include <stack>
+#include <cstring>
 
 using namespace std;
 
-int board[101][101];
-int dx[4] = { 1,0,-1,0 };
-int dy[4] = { 0,1,0,-1 };
-int n, m;
-int cnt = 0;
-int cheeseCnt = 0;
-
-bool melted(int sum)
-{
-	if (sum == 0)
-	{
-		return true;
-	}
-	return false;
-}
-
-void bfs()
-{
-	bool visited[101][101] = { 0, };
-	queue<pair<int, int>> q;
-	q.push({ 0,0 });
-	visited[0][0] = true;
-
-	while (!q.empty())
-	{
-		auto cur = q.front();
-		q.pop();
-
-		for (int dir = 0; dir < 4; dir++)
-		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
-
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
-			{
-				continue;
-			}
-			if (visited[nx][ny])
-			{
-				continue;
-			}
-			if (board[nx][ny] == 1)
-			{
-				board[nx][ny] = 0;
-				visited[nx][ny] = true;
-				continue;
-			}
-
-			visited[nx][ny] = true;
-			q.push({ nx, ny });
-		}
-	}
-}
+const int MAX = 100005;
+int visited[MAX];
+int parent[MAX];
+int n, k;
+queue<pair<int, int>> q;
+stack<int> st;
 
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	cin >> n >> m;
+	cin >> n >> k;
 
-	for (int i = 0; i < n; i++)
+	q.push({n, 0});
+	visited[n] = 1;
+
+	while (!q.empty())
 	{
-		for (int j = 0; j < m; j++)
+		int pos = q.front().first;
+		int sec = q.front().second;
+		q.pop();
+
+		if (pos == k)
 		{
-			cin >> board[i][j];
+			cout << sec << "\n";
+			int now = k;
+			while (now != n)
+			{
+				st.push(now);
+				now = parent[now];
+			}
+			st.push(n);
+		}
+
+		for (int dir : {pos + 1, pos - 1, pos * 2})
+		{
+			if (dir < 0 || dir >= MAX)
+			{
+				continue;
+			}
+			else
+			{
+				if (!visited[dir])
+				{
+					visited[dir] = 1;
+					parent[dir] = pos;
+					q.push({ dir, sec + 1 });
+				}
+				
+			}	
 		}
 	}
 
-	while (true)
+	while (!st.empty())
 	{
-		int sum = 0;
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < m; j++)
-			{
-				if (board[i][j] == 1)
-				{
-					sum++;
-				}
-			}
-		}
-
-		bfs();
-
-		if (melted(sum))
-		{
-			cout << cnt << "\n" << cheeseCnt;
-			return 0;
-		}
-		else
-		{
-			cheeseCnt = sum;
-			cnt++;
-		}
+		cout << st.top() << " ";
+		st.pop();
 	}
 }
 
