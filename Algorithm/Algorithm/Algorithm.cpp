@@ -6,30 +6,69 @@
 
 using namespace std;
 
-int n, m, waterCnt;
-char board[51][51];
-int distWater[51][51];
-int distBeaver[51][51];
-bool visited[51][51];
-int caveX, caveY;
+int n, m;
+int year = 0;
+int area = 0;
+int board[301][301];
+bool visited[301][301];
 int dx[4] = { 1,0,-1,0 };
 int dy[4] = { 0,1,0,-1 };
-queue<pair<int, int>> waterQ;
-queue<pair<int, int>> beaverQ;
 
-int main()
+int bfs()
 {
-	cin.tie(0);
-	ios::sync_with_stdio(0);
+	queue<pair<int, int>> q;
 
-	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (visited[i][j] || board[i][j] > 0)
+			{
+				continue;
+			}
+
+			q.push({ i,j });
+			visited[i][j] = true;
+
+			while (!q.empty())
+			{
+				auto cur = q.front();
+				q.pop();
+
+				for (int dir = 0; dir < 4; dir++)
+				{
+					int nx = cur.x + dx[dir];
+					int ny = cur.y + dy[dir];
+
+					if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+					{
+						continue;
+					}
+					else
+					{
+						if (board[nx][ny] == 0 && !visited[nx][ny])
+						{
+							q.push({ nx,ny });
+							visited[nx][ny] = true;
+						}
+						if (board[nx][ny] > 0)
+						{
+							board[nx][ny] -= 1;
+							if (board[nx][ny] == 0)
+							{
+								visited[nx][ny] = true;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
 	for (int i = 0; i <= n; i++)
 	{
 		for (int j = 0; j <= m; j++)
 		{
-			distWater[i][j] = -1;
-			distBeaver[i][j] = -1;
 			visited[i][j] = false;
 		}
 	}
@@ -38,94 +77,101 @@ int main()
 	{
 		for (int j = 0; j < m; j++)
 		{
-			char c;
-			cin >> c;
-			board[i][j] = c;
-
-			if (c == '*')
-			{
-				waterQ.push({ i,j });
-				distWater[i][j] = 0;
-				visited[i][j] = true;
-			}
-			if (c == 'S')
-			{
-				beaverQ.push({ i,j });
-				distBeaver[i][j] = 0;
-			}
-			if (c == 'D')
-			{
-				caveX = i;
-				caveY = j;
-			}
-		}
-	}
-
-	while (!waterQ.empty())
-	{
-		auto cur = waterQ.front();
-		waterQ.pop();
-		
-		for (int dir = 0; dir < 4; dir++)
-		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
-
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+			if (visited[i][j] || board[i][j] == 0)
 			{
 				continue;
 			}
-			else
+
+			area++;
+			q.push({ i,j });
+			visited[i][j] = true;
+
+			while (!q.empty())
 			{
-				if (board[nx][ny] != 'X' && distWater[nx][ny] == -1 && board[nx][ny] != 'D' && board[nx][ny] != '*')
+				auto cur = q.front();
+				q.pop();
+
+				for (int dir = 0; dir < 4; dir++)
 				{
-					distWater[nx][ny] = distWater[cur.x][cur.y] + 1;
-					waterQ.push({ nx, ny });
+					int nx = cur.x + dx[dir];
+					int ny = cur.y + dy[dir];
+
+					if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+					{
+						continue;
+					}
+					if (visited[nx][ny] || board[nx][ny] == 0)
+					{
+						continue;
+					}
+
+					q.push({ nx, ny });
 					visited[nx][ny] = true;
 				}
 			}
 		}
 	}
 
-	while (!beaverQ.empty())
+	return area;
+}
+
+int main()
+{
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+
+	cin >> n >> m;
+
+	for (int i = 0; i < n; i++)
 	{
-		auto cur = beaverQ.front();
-		beaverQ.pop();
-
-		for (int dir = 0; dir < 4; dir++)
+		for (int j = 0; j < m; j++)
 		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
+			cin >> board[i][j];
+		}
+	}
 
-			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+	while (true)
+	{
+		area = 0;
+		bool canMelt = false;
+		for (int i = 0; i <= n; i++)
+		{
+			for (int j = 0; j <= m; j++)
+			{
+				visited[i][j] = false;
+			}
+		}
+
+		year++;
+		if (bfs() >= 2)
+		{
+			cout << year;
+			break;
+		}
+		else
+		{
+			for (int i = 0; i <= n; i++)
+			{
+				for (int j = 0; j <= m; j++)
+				{
+					if (board[i][j] > 0)
+					{
+						canMelt = true;
+					}
+				}
+			}
+
+			if (canMelt)
 			{
 				continue;
 			}
 			else
 			{
-				if (board[nx][ny] == 'D')
-				{
-					distBeaver[nx][ny] = distBeaver[cur.x][cur.y] + 1;
-					cout << distBeaver[nx][ny];
-					return 0;
-				}
-				if (visited[nx][ny] == false && distBeaver[nx][ny] == -1 && board[nx][ny] != 'X')
-				{
-					distBeaver[nx][ny] = distBeaver[cur.x][cur.y] + 1;
-					beaverQ.push({ nx, ny });
-					continue;
-				}
-				if (board[nx][ny] != 'X' && distBeaver[nx][ny] == -1 && distBeaver[cur.x][cur.y] + 1 < distWater[nx][ny])
-				{
-					distBeaver[nx][ny] = distBeaver[cur.x][cur.y] + 1;
-					beaverQ.push({ nx, ny });
-				}
+				cout << 0;
+				return 0;
 			}
-
 		}
 	}
-
-	cout << "KAKTUS";
 }
 
 
