@@ -2,88 +2,35 @@
 #include <queue>
 #include <algorithm>
 #include <vector>
-#include <cmath>
-#include <cstring>
-#define x first
-#define y second
 
 using namespace std;
 
-int n, L, R;
-int moveDay = 0;
-int board[51][51];
-bool visited[51][51];
-int dx[4] = { 1,0,-1,0 };
-int dy[4] = { 0,1,0,-1 };
-bool canMove = true;
+int n, m;
+int num[10];
+int arr[10001];
+bool isused[10001];
 
-bool check(int x, int y)
+void dfs(int cnt, int k)
 {
-	for (int dir = 0; dir < 4; dir++)
+	if (k == m)
 	{
-		int nx = x + dx[dir];
-		int ny = y + dy[dir];
-
-		if (nx < 0 || nx >= n || ny < 0 || ny >= n)
+		for (int i = 0; i < m; i++)
 		{
-			continue;
+			cout << arr[i] << " ";
 		}
-		if (L <= abs(board[x][y] - board[nx][ny]) && abs(board[nx][ny] - board[x][y]) <= R)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-void BFS(int i, int j)
-{
-	queue<pair<int, int>> q;
-	queue<pair<int, int>> unionSpot;
-
-	q.push({ i,j });
-	unionSpot.push({ i,j });
-	visited[i][j] = true;
-	int unionSum = 0;
-	int unionCnt = 0;
-
-	while (!q.empty())
-	{
-		auto cur = q.front();
-		unionSum += board[cur.x][cur.y];
-		unionCnt++;
-		q.pop();
-
-		for (int dir = 0; dir < 4; dir++)
-		{
-			int nx = cur.x + dx[dir];
-			int ny = cur.y + dy[dir];
-
-			if (nx < 0 || nx >= n || ny < 0 || ny >= n)
-			{
-				continue;
-			}
-			if (visited[nx][ny])
-			{
-				continue;
-			}
-
-			if (L <= abs(board[cur.x][cur.y] - board[nx][ny]) && abs(board[nx][ny] - board[cur.x][cur.y]) <= R)
-			{
-				visited[nx][ny] = true;
-				q.push({ nx, ny });
-				unionSpot.push({ nx, ny });
-			}	
-		}
+		cout << "\n";
+		return;
 	}
 
-	int unionValue = unionSum / unionCnt;
-	
-	while (!unionSpot.empty())
+	for (int i = cnt; i <= n; i++)
 	{
-		auto spot = unionSpot.front();
-		board[spot.x][spot.y] = unionValue;
-		unionSpot.pop();
+		if (!isused[num[i]])
+		{
+			isused[num[i]] = 1;
+			arr[k] = num[i];
+			dfs(i + 1, k + 1);
+			isused[num[i]] = 0;
+		}
 	}
 }
 
@@ -92,37 +39,14 @@ int main()
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
-	cin >> n >> L >> R;
-	
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cin >> board[i][j];
-		}
-	}
-	
-	while (canMove)
-	{
-		canMove = false;
+	cin >> n >> m;
 
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				if (!visited[i][j] && check(i,j))
-				{
-					BFS(i, j);
-					canMove = true;
-				}
-			}
-		}
-		if (canMove)
-		{
-			moveDay++;
-		}
-		memset(visited, false, sizeof(visited));
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> num[i];
 	}
 
-	cout << moveDay;
+	sort(num, num + n + 1);
+
+	dfs(1, 0);
 }
