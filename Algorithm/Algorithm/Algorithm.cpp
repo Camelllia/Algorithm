@@ -5,31 +5,67 @@
 
 using namespace std;
 
-vector<int> lotto;
-bool isused[14];
+int L, C;
+char arr[16];
+vector<char> password;
+bool isused[16];
 
-void reset()
+bool canPassword()
 {
-	memset(isused, false, sizeof(isused));
-	lotto.clear();
+	int vowel = 0;
+	int consonant = 0;
+
+	for (int i = 0; i < password.size(); i++)
+	{
+		if (password[i] == 'a' || password[i] == 'e' || password[i] == 'i' || password[i] == 'o' || password[i] == 'u')
+		{
+			vowel++;
+		}
+		else
+		{
+			consonant++;
+		}
+	}
+
+	if (vowel >= 1 && consonant >= 2)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void func(int idx, int cnt)
 {
-	if (cnt == 6)
+	if (cnt == L)
 	{
-		for (int i = 0; i < lotto.size(); i++)
+		for (int i = 0; i < C; i++)
 		{
 			if (isused[i])
 			{
-				cout << lotto[i] << " ";
+				password.push_back(arr[i]);
 			}
 		}
-		cout << "\n";
-		return;
+		if (canPassword())
+		{
+			for (int j = 0; j < password.size(); j++)
+			{
+				cout << password[j];
+			}
+			cout << "\n";
+			password.clear();
+			return;
+		}
+		else
+		{
+			password.clear();
+			return;
+		}
 	}
 
-	for (int i = idx; i < lotto.size(); i++)
+	for (int i = idx; i < C; i++)
 	{
 		if (!isused[i])
 		{
@@ -44,27 +80,15 @@ int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
+	
+	cin >> L >> C;
 
-	while (true)
+	for (int i = 0; i < C; i++)
 	{
-		int size;
-		cin >> size;
-
-		if (size == 0)
-		{
-			return 0;
-		}
-
-		for (int i = 0; i < size; i++)
-		{
-			int a;
-			cin >> a;
-			lotto.push_back(a);
-		}
-
-		func(0, 0);
-		cout << "\n";
-
-		reset();
+		cin >> arr[i];
 	}
+
+	sort(arr, arr + C);
+
+	func(0, 0);
 }
