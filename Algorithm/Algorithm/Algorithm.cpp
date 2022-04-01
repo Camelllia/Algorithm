@@ -1,78 +1,120 @@
 ﻿#include <iostream>
 #include <algorithm>
 #include <vector>
-#include <cstring>
+#include <queue>
 
 using namespace std;
 
-int L, C;
-char arr[16];
-vector<char> password;
-bool isused[16];
+int n;
+vector<int> result;
+char arr[12];
+bool isused[12];
+int sequence[12];
+queue<char> oper;
+vector<char> v;
 
-bool canPassword()
+void calc()
 {
-	int vowel = 0;
-	int consonant = 0;
+	int temp = 0;
+	int idx = 2;
+	bool init = true;
 
-	for (int i = 0; i < password.size(); i++)
+	while (!oper.empty())
 	{
-		if (password[i] == 'a' || password[i] == 'e' || password[i] == 'i' || password[i] == 'o' || password[i] == 'u')
+		char cur = oper.front();
+
+		if (init)
 		{
-			vowel++;
+			if (cur == 'a')
+			{
+				temp = sequence[0] + sequence[1];
+			}
+			else if (cur == 's')
+			{
+				temp = sequence[0] - sequence[1];
+			}
+			else if (cur == 'm')
+			{
+				temp = sequence[0] * sequence[1];
+			}
+			else if (cur == 'd')
+			{
+				temp = sequence[0] / sequence[1];
+			}
+
+			init = false;
 		}
 		else
 		{
-			consonant++;
+			if (cur == 'a')
+			{
+				temp += sequence[idx];
+			}
+			else if (cur == 's')
+			{
+				temp -= sequence[idx];
+			}
+			else if (cur == 'm')
+			{
+				temp *= sequence[idx];
+			}
+			else if (cur == 'd')
+			{
+				temp /= sequence[idx];
+			}
+
+			idx++;
 		}
+		oper.pop();
 	}
 
-	if (vowel >= 1 && consonant >= 2)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	result.push_back(temp);
 }
 
-void func(int idx, int cnt)
+void func(int k)
 {
-	if (cnt == L)
+	if (k == n - 1)
 	{
-		for (int i = 0; i < C; i++)
+		for (int i = 0; i < v.size(); i++)
 		{
-			if (isused[i])
-			{
-				password.push_back(arr[i]);
-			}
+			oper.push(arr[i]);
 		}
-		if (canPassword())
-		{
-			for (int j = 0; j < password.size(); j++)
-			{
-				cout << password[j];
-			}
-			cout << "\n";
-			password.clear();
-			return;
-		}
-		else
-		{
-			password.clear();
-			return;
-		}
+		calc();
+		return;
 	}
 
-	for (int i = idx; i < C; i++)
+	for (int i = 0; i < v.size(); i++)
 	{
 		if (!isused[i])
 		{
 			isused[i] = true;
-			func(i + 1, cnt + 1);
+			arr[k] = v[i];
+			func(k + 1);
 			isused[i] = false;
 		}
+	}
+}
+
+void makeVec()
+{
+	int a = 0; int s = 0; int m = 0; int d = 0;
+	cin >> a >> s >> m >> d;
+
+	for (int i = 0; i < a; i++)
+	{
+		v.push_back('a');
+	}
+	for (int i = 0; i < s; i++)
+	{
+		v.push_back('s');
+	}
+	for (int i = 0; i < m; i++)
+	{
+		v.push_back('m');
+	}
+	for (int i = 0; i < d; i++)
+	{
+		v.push_back('d');
 	}
 }
 
@@ -80,15 +122,19 @@ int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
-	
-	cin >> L >> C;
 
-	for (int i = 0; i < C; i++)
+	cin >> n;
+	
+	for (int i = 0; i < n; i++)
 	{
-		cin >> arr[i];
+		cin >> sequence[i];
 	}
 
-	sort(arr, arr + C);
+	makeVec();
 
-	func(0, 0);
+	func(0);
+
+	sort(result.begin(), result.end());
+
+	cout << result[result.size() - 1] << "\n" << result[0];
 }
