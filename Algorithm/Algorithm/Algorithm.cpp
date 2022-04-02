@@ -5,85 +5,33 @@
 
 using namespace std;
 
+int maxi = -10001;
+int arr[9];
+vector<int> v;
+bool isused[9];
 int n;
-vector<int> result;
-char arr[12];
-bool isused[12];
-int sequence[12];
-queue<char> oper;
-vector<char> v;
 
 void calc()
 {
-	int temp = 0;
-	int idx = 2;
-	bool init = true;
+	int sum = 0;
 
-	while (!oper.empty())
+	for (int i = 0; i < n - 1; i++)
 	{
-		char cur = oper.front();
-
-		if (init)
-		{
-			if (cur == 'a')
-			{
-				temp = sequence[0] + sequence[1];
-			}
-			else if (cur == 's')
-			{
-				temp = sequence[0] - sequence[1];
-			}
-			else if (cur == 'm')
-			{
-				temp = sequence[0] * sequence[1];
-			}
-			else if (cur == 'd')
-			{
-				temp = sequence[0] / sequence[1];
-			}
-
-			init = false;
-		}
-		else
-		{
-			if (cur == 'a')
-			{
-				temp += sequence[idx];
-			}
-			else if (cur == 's')
-			{
-				temp -= sequence[idx];
-			}
-			else if (cur == 'm')
-			{
-				temp *= sequence[idx];
-			}
-			else if (cur == 'd')
-			{
-				temp /= sequence[idx];
-			}
-
-			idx++;
-		}
-		oper.pop();
+		sum += abs(arr[i] - arr[i + 1]);
 	}
 
-	result.push_back(temp);
+	maxi = max(maxi, sum);
 }
 
 void func(int k)
 {
-	if (k == n - 1)
+	if (k == n)
 	{
-		for (int i = 0; i < v.size(); i++)
-		{
-			oper.push(arr[i]);
-		}
 		calc();
 		return;
 	}
 
-	for (int i = 0; i < v.size(); i++)
+	for (int i = 0; i < n; i++)
 	{
 		if (!isused[i])
 		{
@@ -95,46 +43,21 @@ void func(int k)
 	}
 }
 
-void makeVec()
-{
-	int a = 0; int s = 0; int m = 0; int d = 0;
-	cin >> a >> s >> m >> d;
-
-	for (int i = 0; i < a; i++)
-	{
-		v.push_back('a');
-	}
-	for (int i = 0; i < s; i++)
-	{
-		v.push_back('s');
-	}
-	for (int i = 0; i < m; i++)
-	{
-		v.push_back('m');
-	}
-	for (int i = 0; i < d; i++)
-	{
-		v.push_back('d');
-	}
-}
-
 int main()
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
 
 	cin >> n;
-	
+
 	for (int i = 0; i < n; i++)
 	{
-		cin >> sequence[i];
+		int a;
+		cin >> a;
+		v.push_back(a);
 	}
 
-	makeVec();
-
 	func(0);
-
-	sort(result.begin(), result.end());
-
-	cout << result[result.size() - 1] << "\n" << result[0];
+	
+	cout << maxi;
 }
