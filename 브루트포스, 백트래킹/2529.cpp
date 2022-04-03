@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -17,7 +17,7 @@ bool check()
 {
 	bool flag = false;
 	int idx = 0;
-	
+
 	for (int i = 0; i < n; i++)
 	{
 		if (oper[i] == '<')
