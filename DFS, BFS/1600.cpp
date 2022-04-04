@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <queue>
@@ -9,12 +9,12 @@ using namespace std;
 int k, n, m;
 int moveCnt = 0;
 int board[201][201];
-//ìµœì†Œ ë™ì‘íšŸìˆ˜ ì €ì¥ ë°°ì—´
+//ÃÖ¼Ò µ¿ÀÛÈ½¼ö ÀúÀå ¹è¿­
 int dist[201][201][31];
 int dx[12] = { 1,0,-1,0,-2,-1,1,2,2,1,-1,-2 };
 int dy[12] = { 0,1,0,-1,-1,-2,-2,-1,1,2,2,1 };
 bool canGo;
-//tuple -> xì¢Œí‘œ, yì¢Œí‘œ, ë§ì²˜ëŸ¼ ì´ë™í•œ íšŸìˆ˜
+//tuple -> xÁÂÇ¥, yÁÂÇ¥, ¸»Ã³·³ ÀÌµ¿ÇÑ È½¼ö
 queue<tuple<int, int, int>> q;
 
 void reset()
@@ -33,7 +33,7 @@ void reset()
 
 void bfs()
 {
-	q.push({0, 0, 0});
+	q.push({ 0, 0, 0 });
 	dist[0][0][0] = 0;
 
 	while (!q.empty())
@@ -42,7 +42,7 @@ void bfs()
 		q.pop();
 		int moveCnt = get<2>(cur);
 
-		//ëª©ì ì§€ ë„ì°©ì‹œ ì¶œë ¥í•˜ê³  ë¦¬í„´
+		//¸ñÀûÁö µµÂø½Ã Ãâ·ÂÇÏ°í ¸®ÅÏ
 		if (get<0>(cur) == n - 1 && get<1>(cur) == m - 1)
 		{
 			cout << dist[n - 1][m - 1][moveCnt];
@@ -56,34 +56,34 @@ void bfs()
 			{
 				int nx = get<0>(cur) + dx[dir];
 				int ny = get<1>(cur) + dy[dir];
-				
-				//ë²”ìœ„ ë‚˜ê° -> out
+
+				//¹üÀ§ ³ª°¨ -> out
 				if (nx < 0 || nx >= n || ny < 0 || ny >= m)
 				{
 					continue;
 				}
-				//ì¥ì• ë¬¼ì´ ìˆìŒ -> out
+				//Àå¾Ö¹°ÀÌ ÀÖÀ½ -> out
 				if (board[nx][ny] == 1 || dist[nx][ny][moveCnt + 1] != -1)
 				{
 					continue;
 				}
-				
+
 				q.push({ nx, ny, moveCnt + 1 });
 				dist[nx][ny][moveCnt + 1] = dist[get<0>(cur)][get<1>(cur)][moveCnt] + 1;
 			}
 		}
-		
+
 		for (int dir = 0; dir < 4; dir++)
 		{
 			int nx = get<0>(cur) + dx[dir];
 			int ny = get<1>(cur) + dy[dir];
 
-			//ë²”ìœ„ ë‚˜ê° -> out
+			//¹üÀ§ ³ª°¨ -> out
 			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
 			{
 				continue;
 			}
-			//ì¥ì• ë¬¼ì´ ìˆìŒ -> out
+			//Àå¾Ö¹°ÀÌ ÀÖÀ½ -> out
 			if (board[nx][ny] == 1 || dist[nx][ny][moveCnt] != -1)
 			{
 				continue;
@@ -110,9 +110,9 @@ int main()
 		}
 	}
 
-	//ë™ì‘íšŸìˆ˜ ì €ì¥ ë°°ì—´ ì´ˆê¸°í™”
+	//µ¿ÀÛÈ½¼ö ÀúÀå ¹è¿­ ÃÊ±âÈ­
 	reset();
-	
+
 	bfs();
 
 	if (!canGo)
