@@ -16,7 +16,6 @@ public: bool operator() (tuple<int, int, int> a, tuple<int, int, int> b) {
 int n, k, s;
 int targetX, targetY;
 int board[201][201];
-bool visited[201][201];
 const int dx[4] = { 1,0,-1,0 };
 const int dy[4] = { 0, 1, 0 ,-1 };
 priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, cmp> pq;
@@ -45,7 +44,6 @@ int BFS()
 		while (size--)
 		{
 			auto cur = pq.top();
-			visited[get<0>(cur)][get<1>(cur)] = true;
 			pq.pop();
 
 			for (int dir = 0; dir < 4; dir++)
@@ -57,7 +55,7 @@ int BFS()
 				{
 					continue;
 				}
-				if (board[nx][ny] != 0 || visited[nx][ny])
+				if (board[nx][ny] != 0)
 				{
 					continue;
 				}
